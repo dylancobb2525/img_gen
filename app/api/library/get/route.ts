@@ -13,6 +13,15 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Check if Supabase is configured
+    if (!supabase) {
+      console.log('Supabase not configured, returning error to trigger cookie fallback');
+      return NextResponse.json(
+        { error: 'Database not configured, use local storage' },
+        { status: 503 }
+      );
+    }
+
     // Fetch from Supabase
     const { data, error } = await supabase
       .from('library_items')

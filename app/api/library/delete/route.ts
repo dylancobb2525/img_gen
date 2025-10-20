@@ -14,6 +14,15 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
+    // Check if Supabase is configured
+    if (!supabase) {
+      console.log('Supabase not configured, returning error to trigger cookie fallback');
+      return NextResponse.json(
+        { error: 'Database not configured, use local storage' },
+        { status: 503 }
+      );
+    }
+
     // Delete from Supabase (with email check for security)
     const { error } = await supabase
       .from('library_items')
