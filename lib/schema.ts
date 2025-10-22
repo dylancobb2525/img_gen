@@ -39,7 +39,7 @@ export const LLMResponseSchema = z.object({
   stockKeywords: z.array(z.string()).optional().nullable().describe('Stock photo keywords (10-20 items)'),
   graphicSuggestions: z.array(z.string()).min(1, 'At least one graphic suggestion is required').describe('Conceptual/graphic image suggestions with themes, organization, and layout cues'),
   notes: z.array(z.string()).optional().nullable().describe('Caveats, edge cases, warnings, or truncation notes'),
-}).strict(false); // Allow additional fields from the AI
+}).passthrough(); // Allow additional fields from the AI
 export type LLMResponse = z.infer<typeof LLMResponseSchema>;
 
 // Export JSON Schema for LLM
