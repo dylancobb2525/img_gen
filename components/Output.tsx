@@ -73,9 +73,9 @@ export function Output({ data, requestType, subsidiary, sourcePreview }: OutputP
       requestType,
       title: data.title,
       altText: data.altText,
-      stockKeywords: data.stockKeywords,
+      stockKeywords: data.stockKeywords ?? undefined,
       graphicSuggestions: data.graphicSuggestions,
-      notes: data.notes,
+      notes: data.notes ?? undefined,
       sourcePreview,
     };
 
