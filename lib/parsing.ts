@@ -21,25 +21,20 @@ export async function parsePDF(buffer: Buffer): Promise<string> {
  */
 export async function parseDOCX(buffer: Buffer): Promise<string> {
   try {
-    // Read the docx file
-    const result = await docx.Document.load(buffer);
-    // Extract text from all paragraphs
-    let text = '';
-    
-    // Simple text extraction - get all text content
-    // The docx library structure may vary, this is a basic implementation
+    // Simple text extraction from DOCX (which is a zipped XML file)
     const rawText = buffer.toString('utf-8');
     
     // Basic extraction - look for text between XML tags
     const textMatches = rawText.match(/>([^<]+)</g);
     if (textMatches) {
-      text = textMatches
+      const text = textMatches
         .map(match => match.slice(1, -1))
         .filter(t => t.trim().length > 0 && !t.startsWith('?xml'))
         .join(' ');
+      return text || '[DOCX parsing incomplete]';
     }
     
-    return text || '[DOCX parsing incomplete]';
+    return '[DOCX parsing incomplete]';
   } catch (error) {
     console.error('DOCX parsing error:', error);
     return '[DOCX parsing failed]';
